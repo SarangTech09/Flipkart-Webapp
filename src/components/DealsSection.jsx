@@ -5,14 +5,14 @@ import ProductCard from "./ProductCard";
 
 const DealsSection = () => {
   const dispatch = useDispatch();
-  const { items, status } = useSelector((state) => state.products);
+  const { items = [], status } = useSelector((state) => state.products);
 
   // Fetch products on component mount
   useEffect(() => {
     if (items.length === 0) {
       dispatch(fetchProducts());
     }
-  }, [dispatch, items.length]);
+  }, [dispatch, items]);
 
   if (status === "loading") {
     return <div className="text-center py-8">Loading deals...</div>;
@@ -22,10 +22,10 @@ const DealsSection = () => {
     return <div className="text-center py-8 text-red-500">Error loading deals</div>;
   }
 
-  // Get 6 products from each category
+  // Get 6 products from each category with proper null checks
   const getCategoryProducts = (categoryName) => {
-    return items
-      .filter((product) => product.category?.name === categoryName)
+    return (items || [])
+      .filter((product) => product?.category?.name === categoryName)
       .slice(0, 6);
   };
 
@@ -47,22 +47,26 @@ const DealsSection = () => {
       <div className="container mx-auto px-4">
         <h2 className="text-2xl font-bold mb-6">Today's Best Deals</h2>
         
-        {categorySections.map((section) => (
-          <div key={section.name} className="mb-10">
-            <h3 className="text-xl font-semibold mb-4 text-blue-600">
-              {section.name}
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-              {section.deals.map((product) => (
-                <ProductCard 
-                  key={product._id} 
-                  product={product} 
-                  showAddToCart={false} 
-                />
-              ))}
+        {categorySections.length > 0 ? (
+          categorySections.map((section) => (
+            <div key={section.name} className="mb-10">
+              <h3 className="text-xl font-semibold mb-4 text-blue-600">
+                {section.name}
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+                {section.deals.map((product) => (
+                  <ProductCard 
+                    key={product._id} 
+                    product={product} 
+                    showAddToCart={false} 
+                  />
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <div className="text-center py-8">No deals available at the moment.</div>
+        )}
       </div>
     </section>
   );

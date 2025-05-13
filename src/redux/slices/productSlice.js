@@ -7,7 +7,6 @@ export const fetchProducts = createAsyncThunk(
     const response = await axios.get(
       "https://myshopclues.onrender.com/api/v1/product/all"
     );
-    return response.data.products;
   }
 );
 

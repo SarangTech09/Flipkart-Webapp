@@ -19,7 +19,7 @@ const authSlice = createSlice({
       state.isLoading = action.payload;
     },
     setError: (state, action) => {
-      state.error = action.payload;
+      state.error = action.payload?.status ? action.payload.status : null;
       state.isLoading = false;
     },
     clearUser: (state) => {

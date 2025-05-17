@@ -24,15 +24,20 @@ const DealsSection = () => {
 
   // Get 6 products from each category with proper null checks
   const getCategoryProducts = (categoryName) => {
-    return (items || [])
-      .filter((product) => product?.category?.name === categoryName)
-      .slice(0, 6);
-  };
+  if (!Array.isArray(items)) return [];
+
+  return items
+    .filter((product) => product?.category === categoryName)
+    .slice(0, 6);
+};
+
 
   const electronicsDeals = getCategoryProducts("Electronics");
   const menDeals = getCategoryProducts("Men");
   const womenDeals = getCategoryProducts("Women");
   const groceriesDeals = getCategoryProducts("Grocery");
+  const furnitureDeals = getCategoryProducts("Furniture");
+  const beautyDeals = getCategoryProducts("Beauty");
 
   // Filter out empty categories
   const categorySections = [
@@ -40,6 +45,8 @@ const DealsSection = () => {
     { name: "Men", deals: menDeals },
     { name: "Women", deals: womenDeals },
     { name: "Groceries", deals: groceriesDeals },
+    { name: "Furniture", deals: furnitureDeals },
+    { name: "Beauty", deals: beautyDeals },
   ].filter(section => section.deals.length > 0);
 
   return (

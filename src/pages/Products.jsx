@@ -12,6 +12,10 @@ const Products = () => {
   const searchTerm = searchParams.get("search");
   const category = searchParams.get("category");
 
+const queryParams = new URLSearchParams(window.location.search);
+const categoryName = queryParams.get('category');
+console.log("category name is:",categoryName); // Outputs: Electronics
+
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch]);
@@ -21,7 +25,7 @@ const Products = () => {
       return product.title.toLowerCase().includes(searchTerm.toLowerCase());
     }
     if (category) {
-      return product.category.name === category;
+      return product.category === category;
     }
     return true;
   });

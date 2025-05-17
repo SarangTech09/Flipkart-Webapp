@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
@@ -12,12 +12,15 @@ import { clearCart } from "../redux/slices/cartSlice";
 import SearchBar from "./SearchBar";
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const { user } = useSelector((state) => state.auth);
   const { items } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
-
+  
+  // Parse the user data from localStorage
+  const user = JSON.parse(localStorage.getItem('user'));
+  
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 10);
@@ -29,8 +32,11 @@ const Navbar = () => {
   const handleLogout = async () => {
     try {
       await signOut(auth);
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
       dispatch(clearUser());
-      dispatch(clearCart()); // Clear cart on logout
+      dispatch(clearCart());
+      navigate('/login');
     } catch (error) {
       console.error("Error signing out:", error);
     }
@@ -65,8 +71,15 @@ const Navbar = () => {
                 </button>
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 border border-gray-100">
                   <div className="px-4 py-2 text-sm text-gray-700 border-b">
-                    <p className="font-medium">{user.email}</p>
+                    <p className="font-medium">Welcome, {user.name}</p>
+                    <p className="text-xs text-gray-500">{user.email}</p>
                   </div>
+                  <Link
+                    to="/account"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  >
+                    My Account
+                  </Link>
                   <button
                     onClick={handleLogout}
                     className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
@@ -86,7 +99,7 @@ const Navbar = () => {
             )}
 
             <Link
-              to="/cart"
+              onClick={(e) =>  {e.preventDefault();navigate('/cart')}}
               className="flex items-center space-x-2 relative hover:text-blue-600 transition-colors"
             >
               <div className="relative">

@@ -5,6 +5,8 @@ const categories = [
   { id: 2, name: "Men", image: 'https://rukminim2.flixcart.com/image/612/612/k4hcjgw0pkrrdj/t-shirt/e/d/5/m-mekhal-1254-b-m-jangoboy-mekhal-1254-b-m-original-imafheghyfzwzygy.jpeg?q=70', path: "/products?category=Men" },
   { id: 3, name: "Women", image: 'https://rukminim2.flixcart.com/image/612/612/kfbfr0w0-0/t-shirt/o/b/o/s-st-camellia-2pc-2-sharktribe-original-imafvsratspfdnt7.jpeg?q=70', path: "/products?category=Women" },
   { id: 4, name: "Groceries", image: 'https://rukminim2.flixcart.com/image/612/612/xif0q/shopsy-fmcg-combo/j/u/i/gluten-free-maida-replacer-500g-and-gluten-free-flour-1kg-combo-original-imagrzggeefjwcfh.jpeg?q=70', path: "/products?category=Grocery" },
+  { id: 5, name: "Furniture", image: "https://rukminim2.flixcart.com/image/612/612/xif0q/bed-mattress/a/9/y/normal-top-single-5-35-72-ortho-quilted-memory-foam-memory-foam-original-imah52dgwvgf5vwh.jpeg?q=70", path: "/products?category=Furniture" },
+  { id: 6, name: "Beauty", image: "https://rukminim2.flixcart.com/image/612/612/xif0q/sunscreen/y/o/7/30-multivitamin-gel-uva-uvb-protection-zero-white-cast-50-original-imahbk4dpbvap6x9.jpeg?q=70", path: "/products?category=Beauty" }
 ];
 
 const CategoryNav = () => {

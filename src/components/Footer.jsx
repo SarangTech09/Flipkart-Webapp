@@ -11,33 +11,33 @@ const Footer = () => {
             <div>
               <h4 className="text-gray-400 font-semibold mb-2">ABOUT</h4>
               <ul className="space-y-1">
-                <li>Contact Us</li>
-                <li>About Us</li>
-                <li>Careers</li>
-                <li>Flipkart Stories</li>
-                <li>Press</li>
-                <li>Corporate Information</li>
-              </ul>
+                <li><a href="#" className='hover:text-blue-600'>Contact Us</a></li>
+                <li><a href="#" className='hover:text-blue-600'>About Us</a></li>
+                <li><a href="#" className='hover:text-blue-600'>Careers</a></li>
+                <li><a href="#" className='hover:text-blue-600'>Flipkart Stories</a></li>
+                <li><a href="#" className='hover:text-blue-600'>Press</a></li>
+                <li><a href="#" className='hover:text-blue-600'>Corporate Information</a></li>
+              </ul> 
             </div>
 
             {/* GROUP COMPANIES */}
             <div>
               <h4 className="text-gray-400 font-semibold mb-2">GROUP COMPANIES</h4>
               <ul className="space-y-1">
-                <li>Myntra</li>
-                <li>Cleartrip</li>
-                <li>Shopsy</li>
+                <li> <a href="https://www.myntra.com/" className='hover:text-blue-600'>Myntra</a></li>
+                <li> <a href="https://www.cleartrip.com/" className='hover:text-blue-600'>Cleartrip </a></li>
+                <li><a href="https://www.shopsy.in/" className='hover:text-blue-600'>Shopsy </a></li>
               </ul>
             </div>
 
-            {/* HELP */}
+            {/* HELP */} 
             <div>
               <h4 className="text-gray-400 font-semibold mb-2">HELP</h4>
               <ul className="space-y-1">
-                <li>Payments</li>
-                <li>Shipping</li>
-                <li>Cancellation & Returns</li>
-                <li>FAQ</li>
+                <li><a href="#" className = "hover:text-blue-600">Payments</a></li>
+                <li><a href="#" className = "hover:text-blue-600">Shipping</a></li>
+                <li><a href="#" className = "hover:text-blue-600">Cancellation & Returns</a></li>
+                <li><a href="#" className = "hover:text-blue-600">FAQ</a></li>
               </ul>
             </div>
 
@@ -45,14 +45,14 @@ const Footer = () => {
             <div className="relative">
               <div className="absolute -left-4 top-0 bottom-0 w-px hidden md:block"></div>
               <h4 className="text-gray-400 font-semibold mb-2">CONSUMER POLICY</h4>
-              <ul className="space-y-1">
-                <li>Cancellation & Returns</li>
-                <li>Terms Of Use</li>
-                <li>Security</li>
-                <li>Privacy</li>
-                <li>Sitemap</li>
-                <li>Grievance Redressal</li>
-                <li>EPR Compliance</li>
+              <ul className="space-y-1"> 
+                <li><a href="#" className = 'hover:text-blue-600'>Cancellation & Returns</a></li>
+                <li><a href="#" className = 'hover:text-blue-600'>Terms Of Use</a></li>
+                <li><a href="#" className = 'hover:text-blue-600'>Security</a></li>
+                <li><a href="#" className = 'hover:text-blue-600'>Privacy</a></li>
+                <li><a href="#" className = 'hover:text-blue-600'>Sitemap</a></li>
+                <li><a href="#" className = 'hover:text-blue-600'>Grievance Redressal</a></li>
+                <li><a href="#" className = 'hover:text-blue-600'>EPR Compliance</a></li>
               </ul>
             </div>
 

@@ -4,11 +4,51 @@ import { useSelector, useDispatch } from "react-redux";
 import { addToCart, removeFromCart } from "../redux/slices/cartSlice";
 import { fetchProducts } from "../redux/slices/productSlice";
 
+// Star Rating Component
+const StarRating = ({ rating }) => {
+  // Ensure rating is between 0 and 5
+  const clampedRating = Math.min(5, Math.max(0, rating));
+  const fullStars = Math.floor(clampedRating);
+  const hasHalfStar = clampedRating % 1 >= 0.5;
+  const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+
+  return (
+    <div className="flex items-center">
+      {/* Full Stars */}
+      {[...Array(fullStars)].map((_, i) => (
+        <svg key={`full-${i}`} className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+        </svg>
+      ))}
+      
+      {/* Half Star */}
+      {hasHalfStar && (
+        <svg className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+          <defs>
+            <linearGradient id="half-star" x1="0" x2="100%" y1="0" y2="0">
+              <stop offset="50%" stopColor="currentColor" />
+              <stop offset="50%" stopColor="#D1D5DB" />
+            </linearGradient>
+          </defs>
+          <path fill="url(#half-star)" d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+        </svg>
+      )}
+      
+      {/* Empty Stars */}
+      {[...Array(emptyStars)].map((_, i) => (
+        <svg key={`empty-${i}`} className="w-5 h-5 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+        </svg>
+      ))}
+    </div>
+  );
+};
+
 const ProductDetails = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { user } = useSelector((state) => state.auth);
+  const user = localStorage.getItem('user');
   const { items: products } = useSelector((state) => state.products);
   const { items: cartItems } = useSelector((state) => state.cart);
   const [quantity, setQuantity] = useState(1);
@@ -40,12 +80,33 @@ const ProductDetails = () => {
           id: product._id,
           name: product.title,
           price: product.price,
-          image: product.thumbnail,
-          quantity,
+          image: product.image,
+          rating: product.rating?.rate, // Updated to use correct property
           stock: product.stock
         })
       );
     }
+  };
+
+  const handleBuyNow = () => {
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+
+    if (!isInCart) {
+      dispatch(
+        addToCart({
+          id: product._id,
+          name: product.title,
+          price: product.price,
+          image: product.image,
+          rating: product.rating?.rate, // Updated to use correct property
+          stock: product.stock
+        })
+      );
+    }
+    navigate('/checkout');
   };
 
   return (
@@ -56,7 +117,7 @@ const ProductDetails = () => {
           <div className="md:w-1/2">
             <div className="h-96 bg-gray-100 rounded-lg overflow-hidden mb-4">
               <img
-                src={product.thumbnail}
+                src={product.image}
                 alt={product.title}
                 className="w-full h-full object-contain"
               />
@@ -67,19 +128,17 @@ const ProductDetails = () => {
           <div className="md:w-1/2">
             <h1 className="text-2xl font-bold mb-2">{product.title}</h1>
             <div className="flex items-center mb-4">
-              <div className="flex text-yellow-400">
-                ★★★★☆
-              </div>
+              <StarRating rating={product.rating?.rate || 0} />
               <span className="text-gray-500 ml-2">
-                ({product.ratingAndReviews?.length || 0} reviews)
+                ({product.rating?.count || 0} ratings)
               </span>
             </div>
             <div className="mb-6">
               <span className="text-3xl font-bold text-blue-600">
                 ₹{product.price}
               </span>
-              <span className="text-green-600 ml-2">
-                {product.stock > 0 ? "In Stock" : "Out of Stock"}
+              <span className="ml-2 text-green-600">
+                In Stock
               </span>
             </div>
             <div className="mb-6">
@@ -88,14 +147,14 @@ const ProductDetails = () => {
             </div>
             <div className="mb-6">
               <h2 className="font-bold mb-2">Category</h2>
-              <p className="text-gray-700">{product.category.name}</p>
+              <p className="text-gray-700">{product.category}</p>
             </div>
             <div className="mb-6">
               <h2 className="font-bold mb-2">Quantity</h2>
               <div className="flex items-center">
                 <button
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  className="bg-gray-200 px-3 py-1 rounded-l"
+                  className="bg-gray-200 px-3 py-1 rounded-l hover:bg-gray-300"
                 >
                   -
                 </button>
@@ -103,37 +162,32 @@ const ProductDetails = () => {
                   {quantity}
                 </span>
                 <button
-                  onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
-                  className="bg-gray-200 px-3 py-1 rounded-r"
+                  onClick={() => setQuantity(Math.min(product.stock || 10, quantity + 1))}
+                  className="bg-gray-200 px-3 py-1 rounded-r hover:bg-gray-300"
                 >
                   +
                 </button>
-                <span className="text-gray-500 ml-2">
-                  (Max: {product.stock})
-                </span>
+                {product.stock && (
+                  <span className="text-gray-500 ml-2">
+                    (Max: {product.stock})
+                  </span>
+                )}
               </div>
             </div>
             <div className="flex gap-4">
               <button
                 onClick={handleCartAction}
-                disabled={product.stock <= 0}
                 className={`px-6 py-2 rounded transition-colors ${
-                  product.stock > 0
-                    ? isInCart
-                      ? "bg-red-600 text-white hover:bg-red-700"
-                      : "bg-blue-600 text-white hover:bg-blue-700"
-                    : "bg-gray-400 text-gray-700 cursor-not-allowed"
+                  isInCart
+                    ? "bg-red-600 text-white hover:bg-red-700"
+                    : "bg-blue-600 text-white hover:bg-blue-700"
                 }`}
               >
                 {isInCart ? "Remove from Cart" : "Add to Cart"}
               </button>
               <button
-                disabled={product.stock <= 0}
-                className={`px-6 py-2 rounded transition-colors ${
-                  product.stock > 0
-                    ? "bg-yellow-500 text-white hover:bg-yellow-600"
-                    : "bg-gray-400 text-gray-700 cursor-not-allowed"
-                }`}
+                onClick={handleBuyNow}
+                className="px-6 py-2 rounded bg-yellow-500 text-white hover:bg-yellow-600 transition-colors"
               >
                 Buy Now
               </button>

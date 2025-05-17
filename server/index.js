@@ -24,7 +24,7 @@ app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 
 // 3. Other Middlewares
 app.use(cors({
-  origin: 'https://flipkart-webapp-964d9.web.app/', // Your Vite frontend origin
+  origin: 'https://flipkart-webapp-964d9.web.app', // Your Vite frontend origin
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']

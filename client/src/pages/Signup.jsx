@@ -33,7 +33,7 @@ const Signup = () => {
     dispatch(setError(null));
 
     try {
-      const response = await fetch("http://localhost:5000/api/auth/register", {
+      const response = await fetch("https://flipkart-webapp-5.onrender.com/api/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

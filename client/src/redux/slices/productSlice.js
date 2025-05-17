@@ -5,7 +5,7 @@ export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
   async () => {
     const response = await axios.get(
-      "http://localhost:5000/api/products/"
+      "https://flipkart-webapp-5.onrender.com/api/products/"
     );
     console.log("fetched products",response.data.products);
     return response.data.products;

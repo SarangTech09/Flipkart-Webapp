@@ -29,6 +29,19 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
+// CORS configuration
+// const allowedOrigins = ["http://localhost:5173", "http://localhost:3000", "http://localhost:7000", "https://flipkart-webapp-964d9.web.app"];
+// const corsOptions = {
+//     origin: (origin, callback) => {
+//         if (allowedOrigins.includes(origin) || !origin) {
+//             callback(null, true);
+//         } else {
+//             callback(new Error("Not allowed by CORS"));
+//         }
+//     },
+//     credentials: true,
+// };
+// app.use(cors(corsOptions));
 
 app.use(cookieParser());
 

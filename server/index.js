@@ -45,10 +45,6 @@ app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/products', require('./routes/productRoutes'));
 app.use('/api/cart', require('./routes/cartRoutes')); // Fixed typo: tartRoutes → cartRoutes
 
-// Get the directory name in CommonJS
-const __filename = __filename || fileURLToPath(require('url').pathToFileURL(__filename).href);
-const __dirname = dirname(__filename);
-
 // Serve React frontend
 app.use(express.static(path.resolve(__dirname, '..', 'client', 'dist')));
 

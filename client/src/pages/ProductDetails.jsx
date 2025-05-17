@@ -60,7 +60,7 @@ const ProductDetails = () => {
   }, [dispatch, products]);
 
   const product = products.find((item) => item._id === id);
-  const isInCart = cartItems.some((item) => item.id === id);
+  const isInCart = cartItems.some((item) => item._id === id);
 
   if (!product) {
     return <div className="text-center py-8">Loading product details...</div>;

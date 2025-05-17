@@ -1,4 +1,4 @@
-require('dotenv').config();
+const dotenv = require('dotenv');
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -9,6 +9,7 @@ const { fileURLToPath } = require('url');
 
 
 
+dotenv.config();
 
 // 1. Critical Middlewares - MUST come first
 app.use(express.json()); // Parse JSON bodies
